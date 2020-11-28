@@ -18,7 +18,7 @@ class EvaluationCard:
         5) x = unused
 
     This representation will allow us to do very important things like:
-    - Make a unique prime prodcut for each hand
+    - Make a unique prime product for each hand
     - Detect flushes
     - Detect straights
 
@@ -126,7 +126,7 @@ class EvaluationCard:
                     the ranks of 5 _different_ ranked cards
                     (5 of 13 bits are set)
 
-        Primarily used for evaulating flushes and straights,
+        Primarily used for evaluating flushes and straights,
         two occasions where we know the ranks are *ALL* different.
 
         Assumes that the input is in form (set bits):
