@@ -2,7 +2,11 @@ import pytest
 from poker_ai.poker.evaluation.eval_card import EvaluationCard
 from poker_ai.poker.evaluation.evaluator import Evaluator
 
+# All ranks used in tests are taken from http://suffe.cool/poker/7462.html
+# A low rank is better
+
 POSSIBLE_SUITS = ["c", "d", "h", "s"]
+
 
 @pytest.mark.parametrize("suit", POSSIBLE_SUITS)
 def test_evaluator_royal_flush(suit):
@@ -22,6 +26,7 @@ def test_evaluator_royal_flush(suit):
         raise ValueError
     if rank != 1:
         raise ValueError
+
 
 @pytest.mark.parametrize("suit", POSSIBLE_SUITS)
 def test_evaluator_straight_flush(suit):
@@ -130,7 +135,8 @@ def test_evaluate_with_five_cards_returns_correct_rank_for_flush(suit, hand):
 
     assert evaluator.evaluate(cards[:2], cards[2:]) == hand['expectedRank']
 
-@pytest.mark.parametrize("suits", ["cdshd","dsshc"])
+
+@pytest.mark.parametrize("suits", ["cdshd", "dsshc"])
 @pytest.mark.parametrize("hand", [{"cardRanks": "AKQJT", "expectedRank": 1600},
                                   {"cardRanks": "98765", "expectedRank": 1605},
                                   {"cardRanks": "A5432", "expectedRank": 1609}])
@@ -146,19 +152,20 @@ def test_evaluate_with_five_cards_returns_correct_rank_for_straight(suits, hand)
 
     assert evaluator.evaluate(cards[:2], cards[2:]) == hand['expectedRank']
 
-@pytest.mark.parametrize("hand", [{"tripleRank": "A","kickers":"JT", "expectedRank": 1631},
-                                  {"tripleRank": "K","kickers":"JT", "expectedRank": 1697},
-                                  {"tripleRank": "Q","kickers":"AK", "expectedRank": 1742},
-                                  {"tripleRank": "J","kickers":"AK", "expectedRank": 1808},
-                                  {"tripleRank": "T","kickers":"AK", "expectedRank": 1874},
-                                  {"tripleRank": "9","kickers":"AK", "expectedRank": 1940},
-                                  {"tripleRank": "8","kickers":"AK", "expectedRank": 2006},
-                                  {"tripleRank": "7","kickers":"AK", "expectedRank": 2072},
-                                  {"tripleRank": "6","kickers":"AK", "expectedRank": 2138},
-                                  {"tripleRank": "5","kickers":"AK", "expectedRank": 2204},
-                                  {"tripleRank": "4","kickers":"AK", "expectedRank": 2270},
-                                  {"tripleRank": "3","kickers":"AK", "expectedRank": 2336},
-                                  {"tripleRank": "2","kickers":"AK", "expectedRank": 2402}])
+
+@pytest.mark.parametrize("hand", [{"tripleRank": "A", "kickers": "JT", "expectedRank": 1631},
+                                  {"tripleRank": "K", "kickers": "JT", "expectedRank": 1697},
+                                  {"tripleRank": "Q", "kickers": "AK", "expectedRank": 1742},
+                                  {"tripleRank": "J", "kickers": "AK", "expectedRank": 1808},
+                                  {"tripleRank": "T", "kickers": "AK", "expectedRank": 1874},
+                                  {"tripleRank": "9", "kickers": "AK", "expectedRank": 1940},
+                                  {"tripleRank": "8", "kickers": "AK", "expectedRank": 2006},
+                                  {"tripleRank": "7", "kickers": "AK", "expectedRank": 2072},
+                                  {"tripleRank": "6", "kickers": "AK", "expectedRank": 2138},
+                                  {"tripleRank": "5", "kickers": "AK", "expectedRank": 2204},
+                                  {"tripleRank": "4", "kickers": "AK", "expectedRank": 2270},
+                                  {"tripleRank": "3", "kickers": "AK", "expectedRank": 2336},
+                                  {"tripleRank": "2", "kickers": "AK", "expectedRank": 2402}])
 def test_evaluate_with_five_cards_returns_correct_rank_for_three_of_a_kind(hand):
     cards = [
         EvaluationCard.new(f"{hand['tripleRank']}s"),
@@ -171,11 +178,12 @@ def test_evaluate_with_five_cards_returns_correct_rank_for_three_of_a_kind(hand)
 
     assert evaluator.evaluate(cards[:2], cards[2:]) == hand['expectedRank']
 
-@pytest.mark.parametrize("hand", [{"pairRank1": "A","pairRank2":"K","kicker":"2", "expectedRank": 2478},
-                                  {"pairRank1": "J","pairRank2":"T","kicker":"A", "expectedRank": 2831},
-                                  {"pairRank1": "8","pairRank2":"4","kicker":"3", "expectedRank": 3137},
-                                  {"pairRank1": "4","pairRank2":"2","kicker":"5", "expectedRank": 3313},
-                                  {"pairRank1": "3","pairRank2":"2","kicker":"4", "expectedRank": 3325}])
+
+@pytest.mark.parametrize("hand", [{"pairRank1": "A", "pairRank2": "K", "kicker": "2", "expectedRank": 2478},
+                                  {"pairRank1": "J", "pairRank2": "T", "kicker": "A", "expectedRank": 2831},
+                                  {"pairRank1": "8", "pairRank2": "4", "kicker": "3", "expectedRank": 3137},
+                                  {"pairRank1": "4", "pairRank2": "2", "kicker": "5", "expectedRank": 3313},
+                                  {"pairRank1": "3", "pairRank2": "2", "kicker": "4", "expectedRank": 3325}])
 def test_evaluate_with_five_cards_returns_correct_rank_for_two_pairs(hand):
     cards = [
         EvaluationCard.new(f"{hand['pairRank1']}s"),
@@ -188,19 +196,20 @@ def test_evaluate_with_five_cards_returns_correct_rank_for_two_pairs(hand):
 
     assert evaluator.evaluate(cards[:2], cards[2:]) == hand['expectedRank']
 
-@pytest.mark.parametrize("hand", [{"pairRank": "A","kickers":"K32", "expectedRank": 3380},
-                                  {"pairRank": "K","kickers":"432", "expectedRank": 3765},
-                                  {"pairRank": "Q","kickers":"K32", "expectedRank": 3865},
-                                  {"pairRank": "J","kickers":"K32", "expectedRank": 4085},
-                                  {"pairRank": "T","kickers":"K32", "expectedRank": 4305},
-                                  {"pairRank": "9","kickers":"K32", "expectedRank": 4525},
-                                  {"pairRank": "8","kickers":"K32", "expectedRank": 4745},
-                                  {"pairRank": "7","kickers":"K32", "expectedRank": 4965},
-                                  {"pairRank": "6","kickers":"K32", "expectedRank": 5185},
-                                  {"pairRank": "5","kickers":"K32", "expectedRank": 5405},
-                                  {"pairRank": "4","kickers":"K32", "expectedRank": 5625},
-                                  {"pairRank": "3","kickers":"K42", "expectedRank": 5845},
-                                  {"pairRank": "2","kickers":"K43", "expectedRank": 6065}])
+
+@pytest.mark.parametrize("hand", [{"pairRank": "A", "kickers": "K32", "expectedRank": 3380},
+                                  {"pairRank": "K", "kickers": "432", "expectedRank": 3765},
+                                  {"pairRank": "Q", "kickers": "K32", "expectedRank": 3865},
+                                  {"pairRank": "J", "kickers": "K32", "expectedRank": 4085},
+                                  {"pairRank": "T", "kickers": "K32", "expectedRank": 4305},
+                                  {"pairRank": "9", "kickers": "K32", "expectedRank": 4525},
+                                  {"pairRank": "8", "kickers": "K32", "expectedRank": 4745},
+                                  {"pairRank": "7", "kickers": "K32", "expectedRank": 4965},
+                                  {"pairRank": "6", "kickers": "K32", "expectedRank": 5185},
+                                  {"pairRank": "5", "kickers": "K32", "expectedRank": 5405},
+                                  {"pairRank": "4", "kickers": "K32", "expectedRank": 5625},
+                                  {"pairRank": "3", "kickers": "K42", "expectedRank": 5845},
+                                  {"pairRank": "2", "kickers": "K43", "expectedRank": 6065}])
 def test_evaluate_with_five_cards_returns_correct_rank_for_one_pair(hand):
     cards = [
         EvaluationCard.new(f"{hand['pairRank']}s"),
@@ -229,3 +238,23 @@ def test_evaluate_with_five_cards_returns_correct_rank_for_highest_card(hand):
     evaluator = Evaluator()
 
     assert evaluator.evaluate(cards[:2], cards[2:]) == hand['expectedRank']
+
+
+@pytest.mark.parametrize("parameters", [
+    {"handCards": "A3", "handSuits": "dc", "communityCards": "A2K3", "communitySuits": "dhss", "expectedRank": 2578},
+    {"handCards": "K3", "handSuits": "dc", "communityCards": "2456", "communitySuits": "chss", "expectedRank": 1608},
+    {"handCards": "25", "handSuits": "dc", "communityCards": "3632", "communitySuits": "chss", "expectedRank": 3323},
+    {"handCards": "78", "handSuits": "dc", "communityCards": "5426", "communitySuits": "chss", "expectedRank": 1606},
+    {"handCards": "JT", "handSuits": "dc", "communityCards": "AA4T", "communitySuits": "chss", "expectedRank": 2503}])
+def test_evaluate_with_six_cards_returns_lowest_rank(parameters):
+    cards = [
+        EvaluationCard.new(f"{parameters['handCards'][0]}{parameters['handSuits'][0]}"),
+        EvaluationCard.new(f"{parameters['handCards'][1]}{parameters['handSuits'][1]}"),
+        EvaluationCard.new(f"{parameters['communityCards'][0]}{parameters['communitySuits'][0]}"),
+        EvaluationCard.new(f"{parameters['communityCards'][1]}{parameters['communitySuits'][1]}"),
+        EvaluationCard.new(f"{parameters['communityCards'][2]}{parameters['communitySuits'][2]}"),
+        EvaluationCard.new(f"{parameters['communityCards'][3]}{parameters['communitySuits'][3]}"),
+    ]
+    evaluator = Evaluator()
+
+    assert evaluator.evaluate(cards[:2], cards[2:]) == parameters['expectedRank']
