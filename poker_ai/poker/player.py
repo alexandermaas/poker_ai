@@ -91,6 +91,7 @@ class Player:
         #               blind. What if the player can't actually add the blind?
         #               What do the rules stipulate in these circumstances.
         #               Ensure that this is sorted.
+        #  If a player cannot cover a blind, that player is all-in and the bets are handled just as if that player had gone all-in on an ordinary bet. The main pot gets an amount of money from each player who bets equal to the all-in player's stake. Any further betting goes into a side pot, which the all-in player is ineligible to win.
         n_chips = self._try_to_make_full_bet(n_chips)
         self.pot.add_chips(self, n_chips)
         self.n_chips -= n_chips

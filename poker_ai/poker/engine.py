@@ -190,6 +190,7 @@ class PokerEngine:
         actions in the order they were placed at the table. A betting round
         lasts until all players either call the highest placed bet or fold.
         """
+        #TODO(Alexander): The first_round variable seems to be unused
         if self.n_players_with_moves > 1:
             self._bet_until_everyone_has_bet_evenly()
             logger.debug(
@@ -202,6 +203,7 @@ class PokerEngine:
 
     def _post_betting_analysis(self):
         """Log objects and run checks at the end of each round of betting."""
+        #TODO(Alexander): Why is this needed? Shouldn't this be translated into unit tests instead?
         logger.debug(f"Pot at the end of betting: {self.table.pot}")
         logger.debug("Players at the end of betting:")
         for player in self.table.players:

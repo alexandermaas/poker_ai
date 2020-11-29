@@ -8,8 +8,10 @@ class PokerGameState:
     table and the player whose turn it is taking an action, plus all previous
     states.
     """
+    #TODO(Alexander): This class does not seem to be implemented fully
 
     def __init__(self, previous_state, table, player, action, is_terminal):
+        #TODO(Alexander): is_terminal is unused. Can it be removed?
         self._previous_state = previous_state
         self._table = table
         self._player = player
